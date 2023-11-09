@@ -11,18 +11,6 @@ pipeline {
                 sh 'mvn clean test'
             }
         }
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    docker.build("my-spring-app:${env.BUILD_NUMBER}")
-                }
-            }
-        }
-        stage('Deploy') {
-            steps {
-                sh 'docker-compose -f docker-compose.yml up -d'
-            }
-        }
     }
     post {
         success {
