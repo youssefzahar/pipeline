@@ -16,6 +16,16 @@ pipeline {
                 sh "mvn compile"
             }
         }
+        stage('MVN SONARQUBE') {
+            steps {
+                sh "mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=96575922"
+            }
+        }
+         stage('Test') {
+            steps {
+                sh "mvn test"
+            }
+        }
     }
     post {
         success {
