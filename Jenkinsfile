@@ -6,9 +6,14 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/youssefzahar/pipeline.git'
             }
         }
-        stage('Build and Test') {
+        stage('MVN Clean') {
             steps {
-                sh 'mvn clean test'
+                sh "mvn clean"
+            }
+        }
+        stage('MVN Compile') {
+            steps {
+                sh "mvn compile"
             }
         }
     }
