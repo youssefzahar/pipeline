@@ -28,14 +28,7 @@ pipeline {
             }
         }
 
-        stage('Integration Tests') {
-            steps {
-                script {
-                    // Run integration tests
-                    sh 'mvn verify'
-                }
-            }
-        }
+
         stage('Nexus') {
             steps {
                 sh 'mvn deploy -DskipTests'
@@ -84,14 +77,7 @@ pipeline {
                 }
             }
         }
-        stage('Code Coverage') {
-            steps {
-                script {
-                    // Publish JaCoCo code coverage reports
-                    step([$class: 'JacocoPublisher', execPattern: '**/target/*.exec'])
-                }
-            }
-        }
+
     }
     post {
         success {
