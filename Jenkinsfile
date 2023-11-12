@@ -1,5 +1,11 @@
 pipeline {
     agent any
+    environment
+    {
+        registry = "youssefzz/project"
+        registryCredential = '64ca017e-ac96-4507-9616-f9dfc2a84c4f'
+        dockerImage = ''
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -24,6 +30,70 @@ pipeline {
          stage('Test') {
             steps {
                 sh "mvn test"
+            }
+        }
+        stage('Integration Tests') {
+            steps {
+                script {
+                    // Run integration tests
+                    sh 'mvn verify'
+                }
+            }
+        }
+        stage('Nexus') {
+            steps {
+                sh 'mvn deploy'
+            }
+        }
+        stage('Building  image') {
+
+            steps {
+
+                script {
+
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+
+
+}
+
+            }
+
+        }
+
+        stage('Deploy  image') {
+
+            steps {
+
+                script {
+
+                    docker.withRegistry( '', registryCredential ) {
+
+                        dockerImage.push()
+
+                    }
+
+
+                }
+
+            }
+
+        }
+
+        stage('Docker Compose Up') {
+            steps {
+                script {
+
+                        sh "docker compose up -d"
+
+                }
+            }
+        }
+        stage('Code Coverage') {
+            steps {
+                script {
+                    // Publish JaCoCo code coverage reports
+                    step([$class: 'JacocoPublisher', execPattern: '**/target/*.exec'])
+                }
             }
         }
     }
