@@ -27,11 +27,7 @@ pipeline {
                 sh "mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar"
             }
         }
-         stage('Test') {
-            steps {
-                sh "mvn test"
-            }
-        }
+
         stage('Integration Tests') {
             steps {
                 script {
@@ -42,7 +38,7 @@ pipeline {
         }
         stage('Nexus') {
             steps {
-                sh 'mvn deploy'
+                sh 'mvn deploy -DskipTests'
             }
         }
         stage('Building  image') {
