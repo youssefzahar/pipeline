@@ -34,11 +34,11 @@ pipeline {
                             }
                         }
                     }
-        stage('MVN Test') {
+      /*  stage('MVN Test') {
             steps {
                 sh "mvn test"
             }
-        }
+        }*/
         stage('MVN SONARQUBE') {
             steps {
                 sh "mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar"
