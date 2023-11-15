@@ -25,20 +25,12 @@ pipeline {
                 sh "mvn compile"
             }
         }
-        stage('Build Front') {
-                        steps {
-                            git branch: 'front', url: 'https://github.com/youssefzahar/pipeline.git'
-                            script {
-                                sh 'npm install'
-                                sh 'npm run build'
-                            }
-                        }
-                    }
-      /*  stage('MVN Test') {
+
+        stage('MVN Test') {
             steps {
                 sh "mvn test"
             }
-        }*/
+        }
         stage('MVN SONARQUBE') {
             steps {
                 sh "mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar"
