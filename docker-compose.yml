@@ -9,4 +9,9 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - devops-app  # Assuming this is the name of your Spring Boot service in the backend Docker Compose file
+      - app
+    networks:
+      - my_network
+networks:
+  my_network:
+    external: true
