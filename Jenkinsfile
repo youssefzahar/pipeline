@@ -25,6 +25,15 @@ pipeline {
                 sh "mvn compile"
             }
         }
+        stage('Build Front') {
+                        steps {
+                            git branch: 'front', url: 'https://github.com/youssefzahar/pipeline.git'
+                            script {
+                                sh 'npm install'
+                                sh 'npm run build'
+                            }
+                        }
+                    }
         stage('MVN Test') {
             steps {
                 sh "mvn test"
@@ -42,15 +51,7 @@ pipeline {
                 sh 'mvn deploy -DskipTests'
             }
         }
-        stage('Build Front') {
-                steps {
-                    git branch: 'front', url: 'https://github.com/youssefzahar/pipeline.git'
-                    script {
-                        sh 'npm install'
-                        sh 'npm run build'
-                    }
-                }
-            }
+
         stage('Building image') {
             steps {
                 script {
