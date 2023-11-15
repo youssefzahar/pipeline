@@ -6,9 +6,9 @@ pipeline {
         dockerImage = ''
 
     }
-   /* tools {
-            nodejs = 'nodejs21.2.0'
-        }*/
+    tools {
+            nodejs 'nodejs21.2.0'
+        }
     stages {
         stage('Checkout') {
             steps {
@@ -46,8 +46,7 @@ pipeline {
                 steps {
                     git branch: 'front', url: 'https://github.com/youssefzahar/pipeline.git'
                     script {
-                        sh 'npm install -g npm@latest'
-                        sh 'npm install --force'
+                        sh 'npm install'
                         sh 'npm run build'
                     }
                 }
