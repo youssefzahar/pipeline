@@ -1,5 +1,11 @@
 pipeline {
     agent any
+    environment {
+        registry = "youssefzz/devposfront"
+        registryCredential = '64ca017e-ac96-4507-9616-f9dfc2a84c4f'
+        dockerImage = ''
+
+    }
      tools {
             nodejs 'nodejs21.2.0'
         }
@@ -13,6 +19,30 @@ pipeline {
                                 sh 'npm run build'
                             }
                 }
+        }
+
+        stage('Building image') {
+            steps {
+                script {
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                }
+            }
+        }
+        stage('Deploy image') {
+            steps {
+                script {
+                    docker.withRegistry('', registryCredential) {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+        stage('Docker Compose Up') {
+            steps {
+                script {
+                    sh "docker compose up -d"
+                }
+            }
         }
     }
 
