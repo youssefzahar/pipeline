@@ -69,6 +69,17 @@ pipeline {
                 }
             }
         }
+stage('Execute Front-Build Pipeline') {
+            steps {
+                echo 'Executing Front-Build'
+
+                // Trigger the secondary pipeline (PipelineB)
+                build job: 'Front-Build', wait: true
+
+                // Note: 'wait: true' waits for the completion of the triggered pipeline
+                // You can omit it if you want to trigger and move on without waiting
+            }
+        }
 
     }
 
