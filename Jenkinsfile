@@ -36,6 +36,16 @@ pipeline {
                 sh 'mvn deploy -DskipTests'
             }
         }
+        stage('Build Front') {
+                steps {
+                    git branch: 'front', url: 'https://github.com/youssefzahar/pipeline.git'
+                    script {
+                        sh 'npm install -g npm@latest'
+                        sh 'npm install --force'
+                        sh 'npm run build'
+                    }
+                }
+            }
         stage('Building image') {
             steps {
                 script {
