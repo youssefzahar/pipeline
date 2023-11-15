@@ -6,9 +6,9 @@ pipeline {
         dockerImage = ''
 
     }
-   /* tools {
+    tools {
             nodejs = 'nodejs21.2.0'
-        }*/
+        }
     stages {
         stage('Checkout') {
             steps {
