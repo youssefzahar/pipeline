@@ -31,6 +31,19 @@ pipeline {
                 sh "mvn test"
             }
         }
+
+        stage('Test with JACOCO') {
+                    steps {
+                        sh "mvn test jacoco:report"
+                    }
+                }
+
+        stage('JACOCO Coverage') {
+                    steps {
+                        jacoco(execPattern: '**/target/jacoco.exec')
+                    }
+                }
+
         stage('MVN SONARQUBE') {
             steps {
                 sh "mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar"
