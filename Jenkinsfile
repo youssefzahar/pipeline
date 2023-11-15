@@ -4,7 +4,12 @@ pipeline {
         registry = "youssefzz/testdocker"
         registryCredential = '64ca017e-ac96-4507-9616-f9dfc2a84c4f'
         dockerImage = ''
+        nodejs = 'nodejs21.2.0' // Specify the Node.js tool name configured in Jenkins
+
     }
+    tools {
+            nodejs nodejsInstallation: "${nodejs}", npmInstallation: 'latest'
+        }
     stages {
         stage('Checkout') {
             steps {
