@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Front Build') {
+            steps {
+                            git branch: 'front', url: 'https://github.com/youssefzahar/pipeline.git'
+                            script {
+                                sh 'npm install'
+                                sh 'npm run build'
+                            }
+                }
+        }
+    }
+
+    post {
+        success {
+            echo 'Secondary pipeline succeeded'
+            // You can add further actions if the secondary pipeline succeeds
+        }
+        failure {
+            echo 'Secondary pipeline failed'
+            // You can add further actions if the secondary pipeline fails
+        }
+    }
+}
