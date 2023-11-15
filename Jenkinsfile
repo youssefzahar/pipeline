@@ -32,9 +32,9 @@ pipeline {
         }
         stage('MVN SONARQUBE') {
             steps {
-             //   sh "mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar"
+                sh "mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar"
                // sh 'mvn -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml sonar:sonar -Pcoverage'
-                sh "mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar && mvn -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml sonar:sonar -Pcoverage"
+             //   sh "mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar && mvn -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml sonar:sonar -Pcoverage"
                 }
         }
         stage('Nexus') {
