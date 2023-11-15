@@ -69,15 +69,7 @@ pipeline {
                 }
             }
         }
-        stage('Build Front') {
-                                steps {
-                                    git branch: 'front', url: 'https://github.com/youssefzahar/pipeline.git'
-                                    script {
-                                        sh 'npm install'
-                                        sh 'npm run build'
-                                    }
-                                }
-                            }
+
     }
 
     post {
