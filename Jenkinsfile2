@@ -19,36 +19,6 @@ pipeline {
                                 sh 'npm run build'
                             }
                 }
-
-                post {
-                success {
-                    script {
-                        def subject = "Front Build Successful"
-                        def body = "SUCCESS"
-                        def to = 'youssef.zahar@esprit.tn'
-
-                        mail(
-                            subject: subject,
-                            body: body,
-                            to: to,
-                        )
-                    }
-                }
-                failure {
-                    script {
-                        def subject = "Front Build Failure - ${currentBuild.fullDisplayName}"
-                        def body = "The build has failed "
-                        def to = 'youssef.zahar@esprit.tn'
-
-                        mail(
-                            subject: subject,
-                            body: body,
-                            to: to,
-                        )
-                    }
-                }
-                
-            }
         }
 
         stage('Building image') {
@@ -75,6 +45,42 @@ pipeline {
             }
         }
     }
+
+    tage('Mail') {
+            steps {
+                script {
+                    def emailBody = ""
+                    
+                    // Append details from each stage
+                    emailBody += "Build Status: ${currentBuild.result ?: 'SUCCESS'}\n\n"
+
+                    // GIT Pull
+                    emailBody += "Stage: GIT Pull\n"
+                    emailBody += " - Pulling from Git...\n\n"
+
+                    // Build Docker Image
+                    emailBody += "Stage: Build Docker Image\n"
+                    emailBody += " - Building Docker image for the application...\n\n"
+
+                    // Push Docker Image
+                    emailBody += "Stage: Push Docker Image\n"
+                    emailBody += " - Pushing Docker image to Docker Hub...\n\n"
+
+                    // Email Notification
+                    if (currentBuild.result == 'FAILURE') {
+                        emailBody += "Final Report: The pipeline has failed. Please check the logs and reports for more details.\n"
+                    } else {
+                        emailBody += "Final Report: The pipeline has completed successfully. No action required.\n"
+                    }
+
+                    mail(
+                        body: emailBody,
+                        subject: currentBuild.result == 'FAILURE' ? "❌ Échec de la pipeline DevOps Project Front End"  : "✅ Succès de la pipeline DevOps Project Front End"   , 
+                        to: "youssef.zahar@esprit.tn"
+                    )
+                }
+            }
+        }
 
     post {
         success {
