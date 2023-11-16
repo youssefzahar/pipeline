@@ -1,34 +1,10 @@
 version: '3.8'
 
 services:
-  # MySQL database service
-  mysql-youssef:
-    image: mysql:latest
-    environment:
-      MYSQL_ROOT_PASSWORD:
-      MYSQL_DATABASE: devops
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql-data:/var/lib/mysql
-
-  # Spring Boot application service
-  app:
+  # Angular frontend service
+  frontend:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8082:8082"
-    depends_on:
-      - mysql-youssef
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/devops?createDatabaseIfNotExist=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD:
-
-
-
-
-
-volumes:
-  mysql-data:
+      - "80:80"
