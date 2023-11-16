@@ -46,7 +46,7 @@ pipeline {
         }
     }
 
-    tage('Mail') {
+    stage('Mail') {
             steps {
                 script {
                     def emailBody = ""
