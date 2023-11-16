@@ -53,9 +53,7 @@ pipeline {
         }
         stage('Nexus') {
             steps {
-                //sh 'mvn deploy -DskipTests'
-                echo ""
-                sleep time: 30, unit: 'SECONDS'
+                sh 'mvn deploy -DskipTests'
 
             }
         }
