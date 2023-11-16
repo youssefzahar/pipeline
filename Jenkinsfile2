@@ -44,9 +44,8 @@ pipeline {
                 }
             }
         }
-    }
 
-    stage('Mail') {
+        stage('Mail') {
             steps {
                 script {
                     def emailBody = ""
@@ -76,11 +75,12 @@ pipeline {
                     mail(
                         body: emailBody,
                         subject: currentBuild.result == 'FAILURE' ? "❌ Échec de la pipeline DevOps Project Front End"  : "✅ Succès de la pipeline DevOps Project Front End"   , 
-                        to: "youssef.zahar@esprit.tn"
+                        to: "mezen.bayounes@esprit.tn"
                     )
                 }
             }
         }
+    }
 
     post {
         success {
