@@ -44,7 +44,7 @@ pipeline {
                     }
                 }
 
-        stage('MVN SONARQUBE') {
+        stage('MVN SONARQUBE / Nexus') {
             steps {
                 sh "mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar"
                // sh 'mvn -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml sonar:sonar -Pcoverage'
@@ -53,7 +53,10 @@ pipeline {
         }
         stage('Nexus') {
             steps {
-                sh 'mvn deploy -DskipTests'
+                //sh 'mvn deploy -DskipTests'
+                echo ""
+                sleep time: 30, unit: 'SECONDS'
+
             }
         }
 
