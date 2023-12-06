@@ -32,18 +32,6 @@ pipeline {
             }
         }
 
-        stage('Test with JACOCO') {
-                    steps {
-                        sh "mvn test jacoco:report"
-                    }
-                }
-
-        stage('JACOCO Coverage') {
-                    steps {
-                        jacoco(execPattern: '**/target/jacoco.exec')
-                    }
-                }
-
         stage('MVN SONARQUBE / Nexus') {
             steps {
                 sh "mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar"
@@ -55,32 +43,6 @@ pipeline {
             steps {
                 sh 'mvn deploy -DskipTests'
 
-            }
-        }
-
-
-
-        stage('Building image') {
-            steps {
-                script {
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
-                }
-            }
-        }
-        stage('Deploy image') {
-            steps {
-                script {
-                    docker.withRegistry('', registryCredential) {
-                        dockerImage.push()
-                    }
-                }
-            }
-        }
-        stage('Docker Compose Up') {
-            steps {
-                script {
-                    sh "docker compose up -d"
-                }
             }
         }
 
