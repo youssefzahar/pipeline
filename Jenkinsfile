@@ -83,30 +83,6 @@ pipeline {
                 }
             }
         }
-stage('Execute Front-Build Pipeline') {
-            steps {
-                echo 'Executing Front-Build'
 
-                // Trigger the secondary pipeline (PipelineB)
-                build job: 'Front-Build', wait: true
-
-                // Note: 'wait: true' waits for the completion of the triggered pipeline
-                // You can omit it if you want to trigger and move on without waiting
-            }
-        }
-
-    }
-
-    post {
-        success {
-            emailext subject: 'Pipeline Successful',
-                body: 'The Jenkins Pipeline for My Spring Boot App succeeded!',
-                to: 'youssef.zahar@esprit.tn'
-        }
-        failure {
-            emailext subject: 'Pipeline Failed',
-                body: 'The Jenkins Pipeline for My Spring Boot App failed.',
-                to: 'youssef.zahar@esprit.tn'
-        }
     }
 }
